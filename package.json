@@ -1,0 +1,10 @@
+{
+  "name": "ethara",
+  "private": true,
+  "description": "Ethara — run backend and frontend from subfolders",
+  "scripts": {
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "seed": "npm --prefix backend run seed"
+  }
+}

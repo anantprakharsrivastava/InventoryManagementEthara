@@ -1,0 +1,295 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-void: #050508;
+  --color-surface: #0c0c12;
+  --color-ember: #ff5e3a;
+  --color-gold: #f4d35e;
+  --color-mint: #3dffa8;
+  --color-muted: #8b8fa3;
+}
+
+@layer base {
+  * {
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    font-family: var(--font-sans);
+    color: #eceef4;
+    background: var(--color-void);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body.light {
+    background: #f4f2ed;
+    color: #0c0c12;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: rgba(255, 94, 58, 0.35);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--color-ember), var(--color-mint));
+    border-radius: 99px;
+  }
+}
+
+@layer utilities {
+  .app-mesh {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 10% -10%, rgba(255, 94, 58, 0.18), transparent 50%),
+      radial-gradient(ellipse 60% 40% at 95% 10%, rgba(61, 255, 168, 0.12), transparent 45%),
+      radial-gradient(ellipse 50% 60% at 50% 100%, rgba(244, 211, 94, 0.08), transparent 50%),
+      var(--color-void);
+  }
+
+  .app-mesh::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .app-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .glass,
+  .eth-card {
+    position: relative;
+    background: linear-gradient(145deg, rgba(18, 18, 26, 0.95), rgba(10, 10, 14, 0.88));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 1.25rem;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+      0 24px 48px -24px rgba(0, 0, 0, 0.6);
+  }
+
+  .eth-card-hover {
+    position: relative;
+    background: linear-gradient(145deg, rgba(18, 18, 26, 0.95), rgba(10, 10, 14, 0.88));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 1.25rem;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+      0 24px 48px -24px rgba(0, 0, 0, 0.6);
+    transition: all 0.5s ease;
+  }
+
+  .eth-card-hover:hover {
+    border-color: rgba(255, 94, 58, 0.25);
+    transform: translateY(-3px);
+    box-shadow:
+      0 0 0 1px rgba(255, 94, 58, 0.1) inset,
+      0 32px 64px -24px rgba(255, 94, 58, 0.12);
+  }
+
+  .eth-card-glow {
+    position: relative;
+    background: linear-gradient(145deg, rgba(18, 18, 26, 0.95), rgba(10, 10, 14, 0.88));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 1.25rem;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+      0 24px 48px -24px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+  }
+
+  .eth-card-glow::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-ember), var(--color-mint), transparent);
+    opacity: 0.7;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #fff 0%, var(--color-gold) 40%, var(--color-ember) 70%, var(--color-mint) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .gradient-text-warm {
+    background: linear-gradient(120deg, var(--color-ember), var(--color-gold));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .gradient-btn {
+    background: linear-gradient(135deg, var(--color-ember) 0%, #ff8a65 50%, var(--color-gold) 100%);
+    color: #0a0a0e;
+    font-weight: 600;
+    box-shadow: 0 8px 32px -8px rgba(255, 94, 58, 0.55);
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .gradient-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 16px 40px -8px rgba(255, 94, 58, 0.65);
+  }
+
+  .gradient-btn:active {
+    transform: scale(0.98);
+  }
+
+  .btn-ghost-eth {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #c8cad4;
+    transition: all 0.3s ease;
+  }
+
+  .btn-ghost-eth:hover {
+    border-color: rgba(61, 255, 168, 0.35);
+    color: #fff;
+    background: rgba(61, 255, 168, 0.06);
+  }
+
+  .nav-active-glow {
+    position: relative;
+    background: linear-gradient(90deg, rgba(255, 94, 58, 0.12), rgba(61, 255, 168, 0.06));
+    border: 1px solid rgba(255, 94, 58, 0.2);
+    color: #fff;
+  }
+
+  .nav-active-glow::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 60%;
+    border-radius: 0 4px 4px 0;
+    background: linear-gradient(180deg, var(--color-ember), var(--color-mint));
+    box-shadow: 0 0 12px var(--color-ember);
+  }
+
+  .input-eth {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.875rem;
+    color: #fff;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+
+  .input-eth:focus {
+    outline: none;
+    border-color: rgba(255, 94, 58, 0.45);
+    box-shadow: 0 0 0 3px rgba(255, 94, 58, 0.12);
+  }
+
+  /* Date picker — high visibility on dark UI */
+  .date-input-eth {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 2.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 94, 58, 0.25);
+    border-radius: 0.875rem;
+    color-scheme: dark;
+    cursor: pointer;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  }
+
+  .date-input-eth:hover {
+    border-color: rgba(255, 94, 58, 0.5);
+    background: rgba(255, 94, 58, 0.06);
+  }
+
+  .date-input-eth:focus {
+    outline: none;
+    border-color: var(--color-ember);
+    box-shadow: 0 0 0 3px rgba(255, 94, 58, 0.2);
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  .date-input-eth::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 1;
+    width: 1.35rem;
+    height: 1.35rem;
+    margin-right: 0.15rem;
+    filter: invert(72%) sepia(89%) saturate(1500%) hue-rotate(330deg) brightness(105%) contrast(101%);
+  }
+
+  .date-input-eth::-webkit-datetime-edit {
+    color: #eceef4;
+  }
+
+  .date-input-eth::-webkit-datetime-edit-fields-wrapper {
+    color: #eceef4;
+  }
+
+  .date-input-eth::-webkit-datetime-edit-text,
+  .date-input-eth::-webkit-datetime-edit-month-field,
+  .date-input-eth::-webkit-datetime-edit-day-field,
+  .date-input-eth::-webkit-datetime-edit-year-field {
+    color: #eceef4;
+    padding: 0 2px;
+  }
+
+  .date-input-eth::-webkit-datetime-edit-month-field:focus,
+  .date-input-eth::-webkit-datetime-edit-day-field:focus,
+  .date-input-eth::-webkit-datetime-edit-year-field:focus {
+    background: rgba(255, 94, 58, 0.25);
+    color: #fff;
+    border-radius: 4px;
+    outline: none;
+  }
+
+  .date-input-eth:invalid::-webkit-datetime-edit {
+    color: var(--color-muted);
+  }
+
+  .pill-tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 94, 58, 0.35);
+    background: rgba(255, 94, 58, 0.08);
+    color: var(--color-ember);
+  }
+
+  .glow-violet {
+    box-shadow: 0 0 48px rgba(255, 94, 58, 0.12);
+  }
+}
