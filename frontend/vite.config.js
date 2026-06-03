@@ -7,14 +7,11 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-      },
-      '/uploads': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-      },
+      '/products': { target: 'http://localhost:8000', changeOrigin: true },
+      '/customers': { target: 'http://localhost:8000', changeOrigin: true },
+      '/orders': { target: 'http://localhost:8000', changeOrigin: true },
+      '/dashboard': { target: 'http://localhost:8000', changeOrigin: true },
+      '/health': { target: 'http://localhost:8000', changeOrigin: true },
     },
   },
 });

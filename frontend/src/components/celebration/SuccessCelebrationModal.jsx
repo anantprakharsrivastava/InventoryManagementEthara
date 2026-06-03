@@ -20,16 +20,16 @@ export default function SuccessCelebrationModal({ isOpen, title, message, onClos
             style={{
               background: 'rgba(12, 12, 22, 0.88)',
               backdropFilter: 'blur(24px)',
-              border: '1px solid rgba(139, 92, 246, 0.35)',
+              border: '1px solid rgba(255, 107, 74, 0.4)',
               boxShadow:
-                '0 0 80px rgba(139, 92, 246, 0.25), 0 0 40px rgba(6, 182, 212, 0.15), inset 0 1px 0 rgba(255,255,255,0.08)',
+                '0 0 80px rgba(255, 107, 74, 0.3), 0 0 40px rgba(45, 212, 191, 0.15), inset 0 1px 0 rgba(255,255,255,0.08)',
             }}
           >
             <div
               className="absolute inset-0 opacity-30 pointer-events-none"
               style={{
                 background:
-                  'linear-gradient(135deg, rgba(139,92,246,0.4) 0%, transparent 50%, rgba(6,182,212,0.35) 100%)',
+                  'linear-gradient(135deg, rgba(255,107,74,0.45) 0%, transparent 50%, rgba(45,212,191,0.35) 100%)',
               }}
             />
 
@@ -47,15 +47,15 @@ export default function SuccessCelebrationModal({ isOpen, title, message, onClos
               transition={{ delay: 0.15, type: 'spring', stiffness: 400 }}
               className="relative mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full"
               style={{
-                background: 'linear-gradient(135deg, #8b5cf6, #06b6d4)',
-                boxShadow: '0 0 40px rgba(139, 92, 246, 0.5)',
+                background: 'linear-gradient(135deg, #ff6b4a, #ffc857)',
+                boxShadow: '0 0 40px rgba(255, 107, 74, 0.55)',
               }}
             >
               <CheckCircle2 className="h-10 w-10 text-white" />
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-                className="absolute -inset-1 rounded-full border border-dashed border-cyan-400/40"
+                className="absolute -inset-1 rounded-full border border-dashed border-amber-400/50"
               />
             </motion.div>
 
@@ -66,11 +66,11 @@ export default function SuccessCelebrationModal({ isOpen, title, message, onClos
               className="relative"
             >
               <div className="mb-2 flex items-center justify-center gap-2">
-                <Sparkles className="h-4 w-4 text-violet-400" />
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-400">
+                <Sparkles className="h-4 w-4 text-orange-400" />
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-teal-300">
                   Success
                 </span>
-                <Sparkles className="h-4 w-4 text-cyan-400" />
+                <Sparkles className="h-4 w-4 text-amber-300" />
               </div>
               <h2
                 className="text-2xl font-bold text-white mb-2"
@@ -89,7 +89,7 @@ export default function SuccessCelebrationModal({ isOpen, title, message, onClos
             >
               <motion.div
                 className="h-full rounded-full"
-                style={{ background: 'linear-gradient(90deg, #8b5cf6, #06b6d4)' }}
+                style={{ background: 'linear-gradient(90deg, #ff6b4a, #ffc857, #2dd4bf)' }}
                 initial={{ width: '100%' }}
                 animate={{ width: '0%' }}
                 transition={{ duration: 4, ease: 'linear' }}

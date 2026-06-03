@@ -1,171 +1,145 @@
-# Ethara — Task & Project Management Platform
+# Ethara Inventory & Order Management System
 
-A production-ready, modern SaaS-style project management web application with role-based access control, real-time notifications, Kanban boards, analytics dashboards, and team chat.
+Production-ready **Inventory & Order Management** app built for the technical assessment:
 
-![Stack](https://img.shields.io/badge/React-Vite-61DAFB)
-![Stack](https://img.shields.io/badge/Node-Express-339933)
-![Stack](https://img.shields.io/badge/MongoDB-Atlas-47A248)
+- **Backend:** Python + FastAPI  
+- **Frontend:** React (Vite)  
+- **Database:** **MongoDB** (same stack as the original Ethara project — Atlas or Docker)  
+- **Containerization:** Docker + Docker Compose  
+
+> **Note:** The assessment template mentions PostgreSQL. This project intentionally uses **MongoDB** per product requirements to keep the existing database platform.
 
 ## Features
 
-- **Authentication** — JWT signup/login, persistent sessions, bcrypt password hashing
-- **Role-Based Access** — Admin (full control) vs Member (assigned work)
-- **Projects** — CRUD, members, admins, status tracking
-- **Tasks** — Priorities, statuses, assignments, comments, file uploads
-- **Kanban Board** — Drag-and-drop with `@dnd-kit`
-- **Dashboard** — Stats, Recharts analytics, team activity feed
-- **Real-time** — Socket.io notifications & chat
-- **UI** — Dark glassmorphism, Framer Motion, responsive design
+### Products
+- `POST /products` · `GET /products` · `GET /products/{id}` · `PUT /products/{id}` · `DELETE /products/{id}`
+- Fields: name, SKU, price, quantity in stock
 
-## Tech Stack
+### Customers
+- `POST /customers` · `GET /customers` · `GET /customers/{id}` · `DELETE /customers/{id}`
+- Fields: full name, email, phone
 
-| Layer | Technologies |
-|-------|-------------|
-| Frontend | React, Vite, Tailwind CSS, Framer Motion, React Router, Axios, Recharts |
-| Backend | Node.js, Express, Mongoose, JWT, Socket.io, Multer |
-| Database | MongoDB Atlas |
+### Orders
+- `POST /orders` · `GET /orders` · `GET /orders/{id}` · `DELETE /orders/{id}`
+- Customer + product line items, quantity, **backend-calculated total**
+- **Unique SKU** · **Unique email** · **No negative stock**
+- **Insufficient stock blocked** · **Stock reduced on order** · **Stock restored on order delete**
 
-## Project Structure
+### Dashboard
+- `GET /dashboard` — totals + low stock (≤10 units)
 
-```
-etharaproject/
-├── backend/
-│   ├── config/          # Database connection
-│   ├── controllers/     # Route handlers
-│   ├── middleware/      # Auth, upload, errors
-│   ├── models/          # Mongoose schemas
-│   ├── routes/          # API routes
-│   ├── seed/            # Sample data
-│   └── server.js        # Entry point
-├── frontend/
-│   └── src/
-│       ├── components/  # UI components
-│       ├── context/     # Auth context
-│       ├── hooks/       # Custom hooks
-│       ├── layouts/     # Sidebar, header
-│       ├── pages/       # Route pages
-│       └── services/    # API & socket
-└── README.md
+## Quick start (Docker)
+
+```bash
+# From project root
+docker compose up --build
 ```
 
-## Quick Start (Local)
+| Service   | URL |
+|-----------|-----|
+| Frontend  | http://localhost:3000 |
+| Backend   | http://localhost:8000 |
+| API docs  | http://localhost:8000/docs |
+| MongoDB   | localhost:27017 |
 
-### Prerequisites
+### Seed sample data
 
-- Node.js 18+
-- MongoDB Atlas account (or local MongoDB)
+```bash
+docker compose exec backend python seed.py
+```
 
-### 1. Backend Setup
+## Local development (without Docker)
+
+### Backend
 
 ```bash
 cd backend
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+pip install -r requirements.txt
 cp .env.example .env
-# Edit .env with your MongoDB URI and JWT_SECRET
-npm install
-npm run seed    # Optional: load demo data
-npm run dev
+# Edit MONGODB_URI (local or Atlas)
+uvicorn app.main:app --reload --port 8000
+python seed.py
 ```
 
-### 2. Frontend Setup
+### Frontend
 
 ```bash
 cd frontend
-cp .env.example .env
 npm install
+cp .env.example .env
 npm run dev
 ```
 
-Open **http://localhost:5173**
+Open http://localhost:5173
 
-### Demo Credentials (after seed)
-
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | admin@ethara.com | admin123 |
-| Member | sarah@ethara.com | member123 |
-| Member | james@ethara.com | member123 |
-
-## Environment Variables
+## Environment variables
 
 ### Backend (`backend/.env`)
 
-```env
-NODE_ENV=development
-PORT=5000
-MONGODB_URI=mongodb+srv://...
-JWT_SECRET=your_secret_key
-JWT_EXPIRE=7d
-CLIENT_URL=http://localhost:5173
-UPLOAD_PATH=uploads
-```
+| Variable | Description |
+|----------|-------------|
+| `MONGODB_URI` | MongoDB connection string |
+| `DATABASE_NAME` | Database name (default: `ethara_inventory`) |
+| `CORS_ORIGINS` | Comma-separated frontend URLs |
+| `PORT` | API port (default 8000) |
 
 ### Frontend (`frontend/.env`)
 
-```env
-VITE_API_URL=http://localhost:5000/api
-VITE_SOCKET_URL=http://localhost:5000
+| Variable | Description |
+|----------|-------------|
+| `VITE_API_URL` | Backend URL, e.g. `http://localhost:8000` |
+
+## Docker Hub (submission)
+
+Build and push the backend image:
+
+```bash
+docker build -t YOUR_DOCKERHUB_USER/ethara-inventory-api:latest ./backend
+docker push YOUR_DOCKERHUB_USER/ethara-inventory-api:latest
 ```
 
-## API Documentation
+## Deployment (free tier)
 
-See [API.md](./API.md) for full REST API reference.
+### Backend — Railway / Render / Fly.io
 
-### Core Endpoints
+1. Deploy `./backend` (Root Directory: `backend`)
+2. Set env: `MONGODB_URI` (MongoDB Atlas), `DATABASE_NAME`, `CORS_ORIGINS` (your Vercel URL)
+3. Start: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register user |
-| POST | `/api/auth/login` | Login |
-| GET | `/api/auth/me` | Current user |
-| GET | `/api/projects` | List projects |
-| POST | `/api/projects` | Create project (admin) |
-| GET | `/api/tasks` | List tasks |
-| POST | `/api/tasks` | Create task |
-| POST | `/api/tasks/:id/comment` | Add comment |
-| GET | `/api/dashboard/stats` | Dashboard analytics |
+### Frontend — Vercel / Netlify
 
-## Deployment
+1. Root: `frontend`
+2. `VITE_API_URL=https://your-api.example.com` (no trailing slash)
+3. Redeploy after env changes
 
-### Frontend → Vercel
+## Project structure
 
-1. Push repo to GitHub
-2. Import project in [Vercel](https://vercel.com)
-3. Set root directory to `frontend`
-4. Add environment variables:
-   - `VITE_API_URL=https://your-api.railway.app/api`
-   - `VITE_SOCKET_URL=https://your-api.railway.app`
-5. Deploy
+```
+backend/
+  app/           # FastAPI application
+  Dockerfile
+  requirements.txt
+  seed.py
+frontend/
+  src/           # React UI
+  Dockerfile
+  nginx.conf
+docker-compose.yml
+```
 
-### Backend → Railway
+## API documentation
 
-1. Create project on [Railway](https://railway.app)
-2. Connect GitHub repo, set root to `backend`
-3. Add environment variables from `.env.example`
-4. Deploy — Railway auto-detects Node.js
+Interactive docs: `http://localhost:8000/docs` (Swagger UI)
 
-### MongoDB Atlas
+## Submission checklist
 
-1. Create free cluster at [MongoDB Atlas](https://www.mongodb.com/atlas)
-2. Create database user & whitelist IP (`0.0.0.0/0` for cloud deploy)
-3. Copy connection string to `MONGODB_URI`
-4. Run seed: `npm run seed` (locally with production URI)
-
-### Post-Deploy Checklist
-
-- [ ] Set strong `JWT_SECRET`
-- [ ] Update `CLIENT_URL` to Vercel domain
-- [ ] Enable CORS for production frontend URL
-- [ ] Run database seed or create admin manually
-
-## Scripts
-
-| Command | Location | Description |
-|---------|----------|-------------|
-| `npm run dev` | backend | Start API with nodemon |
-| `npm start` | backend | Production server |
-| `npm run seed` | backend | Seed sample data |
-| `npm run dev` | frontend | Vite dev server |
-| `npm run build` | frontend | Production build |
+- [ ] GitHub repository link  
+- [ ] Docker Hub backend image link  
+- [ ] Live frontend URL (Vercel/Netlify)  
+- [ ] Live backend API URL (Railway/Render)  
+- [ ] `docker compose up` runs all three services  
 
 ## License
 

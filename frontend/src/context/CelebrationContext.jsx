@@ -6,36 +6,36 @@ import { playSuccessSound } from '../utils/playSuccessSound';
 import SuccessCelebrationModal from '../components/celebration/SuccessCelebrationModal';
 
 export const CELEBRATION_TYPES = {
-  PROJECT_CREATED: 'project_created',
-  TASK_CREATED: 'task_created',
-  TASK_COMPLETED: 'task_completed',
+  PRODUCT_CREATED: 'product_created',
+  CUSTOMER_CREATED: 'customer_created',
+  ORDER_PLACED: 'order_placed',
   SIGNUP_SUCCESS: 'signup_success',
 };
 
 const PRESETS = {
-  [CELEBRATION_TYPES.PROJECT_CREATED]: {
-    title: 'Project Launched!',
-    message: 'Your new mission is live. Time to build something epic.',
-    toast: 'Project created successfully!',
+  [CELEBRATION_TYPES.PRODUCT_CREATED]: {
+    title: 'Product Locked In!',
+    message: 'New SKU added to the vault. Inventory pulse updated.',
+    toast: 'Product created successfully!',
   },
-  [CELEBRATION_TYPES.TASK_CREATED]: {
-    title: 'Task Deployed!',
-    message: 'Added to the board. Your crew can see it now.',
-    toast: 'Task created successfully!',
+  [CELEBRATION_TYPES.CUSTOMER_CREATED]: {
+    title: 'Customer Onboarded!',
+    message: 'A new contact joins your registry. Ready for orders.',
+    toast: 'Customer added successfully!',
   },
-  [CELEBRATION_TYPES.TASK_COMPLETED]: {
-    title: 'Task Crushed!',
-    message: 'Another win on the board. Momentum unlocked.',
-    toast: 'Task marked as completed!',
+  [CELEBRATION_TYPES.ORDER_PLACED]: {
+    title: 'Order Fired!',
+    message: 'Stock deducted. Total calculated. Fulfillment in motion.',
+    toast: 'Order placed successfully!',
   },
   [CELEBRATION_TYPES.SIGNUP_SUCCESS]: {
-    title: 'Welcome to Ethara!',
-    message: 'Your command center is ready. Let the work begin.',
-    toast: 'Account created successfully!',
+    title: 'Welcome to Ethara Vault!',
+    message: 'Your inventory command deck is ready.',
+    toast: 'Signed in successfully!',
   },
 };
 
-const CONFETTI_COLORS = ['#8b5cf6', '#06b6d4', '#a78bfa', '#22d3ee', '#c4b5fd', '#ffffff'];
+const CONFETTI_COLORS = ['#ff6b4a', '#2dd4bf', '#ffc857', '#a78bfa', '#ff8f6b', '#ffffff'];
 
 const CelebrationContext = createContext(null);
 
@@ -51,7 +51,7 @@ export function CelebrationProvider({ children }) {
   };
 
   const celebrate = useCallback((type, overrides = {}) => {
-    const preset = PRESETS[type] || PRESETS[CELEBRATION_TYPES.TASK_CREATED];
+    const preset = PRESETS[type] || PRESETS[CELEBRATION_TYPES.PRODUCT_CREATED];
     const title = overrides.title || preset.title;
     const message = overrides.message || preset.message;
     const toastMsg = overrides.toast || preset.toast;
@@ -82,7 +82,7 @@ export function CelebrationProvider({ children }) {
           width={width}
           height={height}
           recycle={false}
-          numberOfPieces={420}
+          numberOfPieces={480}
           gravity={0.22}
           initialVelocityY={18}
           colors={CONFETTI_COLORS}
